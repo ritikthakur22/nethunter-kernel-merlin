@@ -61,3 +61,15 @@ bash tools/build_modules.sh
 bash tools/package_kernel.sh
 bash tools/package_magisk.sh
 ```
+
+## 📦 Restoring the Full Workspace Archive
+If you downloaded the massive `project_file.zip` chunks from the **GitHub Releases** page instead of cloning, you must fuse them together before unzipping.
+
+Once you have downloaded `project_file.zip.part_aa`, `part_ab`, and `part_ac` into the same folder, open your terminal and run:
+```bash
+# Combine the split chunks into a single zip file
+cat project_file.zip.part_* > complete_project_file.zip
+
+# Unzip the fused file
+unzip complete_project_file.zip
+```
