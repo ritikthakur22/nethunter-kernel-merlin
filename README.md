@@ -20,31 +20,31 @@ This repository is designed to be the ultimate starting point for anyone who wan
 | TP-Link Archer T2U Plus | RTL8821AU | wlan2 | aircrack-ng/rtl8812au | Working (Injection/Monitor) |
 | Generic Micro Wi-Fi | RTL8188FTV | wlan2 | kelebek333/rtl8188fu | Working (Injection/Monitor) |
 
-## 🏗️ Architecture & Workflow
+## 🏗️ Workflow Overview
+Instead of fighting broken internal driver patches, this project completely detaches the Wi-Fi compilation from the main kernel. 
+1. We cross-compile the custom Android 13 kernel with `Proton Clang`.
+2. We use the generated kernel headers to cross-compile the standalone Wi-Fi drivers out-of-tree.
+3. We package the kernel via `AnyKernel3` and inject the `.ko` drivers systemlessly via `Magisk`.
 
 ```mermaid
-graph TD
-    A[Arch Linux Host] -->|Clone| B(Proton Clang Toolchain)
-    A -->|Clone| C(LineageOS Kernel Source)
-    A -->|Clone| D(Standalone Wi-Fi Drivers)
-    
-    B --> E{Compile Custom Kernel}
-    C --> E
-    
-    E -->|Output| F[Image.gz-dtb]
-    E -->|Kernel Headers| G{Cross-Compile Wi-Fi Drivers}
-    D --> G
-    
-    F --> H[AnyKernel3 Packaging]
-    H -->|TWRP Flashable| I(Nethunter-Kernel-Merlin-A13.zip)
-    
-    G -->|Output| J[rtl8188fu.ko, 88XXau.ko, 8188eu.ko]
-    J --> K[Magisk Module Packaging]
-    K -->|Magisk Flashable| L(NetHunter_WiFi_Drivers_Magisk.zip)
-    
-    I -->|Flash via TWRP| M((Android 13 Device))
-    L -->|Flash via Magisk App| M
+graph LR
+    A[Compile Kernel] --> B[Cross-Compile Wi-Fi Drivers]
+    B --> C[Magisk Injection]
 ```
+
+## 📥 Downloads & Releases
+Download the pre-compiled packages directly from the Releases page:
+- **[Download Complete Pre-Configured Workspace (3GB)](https://github.com/ritikthakur22/nethunter-kernel-merlin/releases/tag/v1.0)** - Contains the compiled `.o` objects and full environment.
+- **Magisk Compatibility:** The included `NetHunter_WiFi_Drivers_Magisk.zip` requires **Magisk v26.0+**.
+
+## 🔗 References & Upstream Repositories
+This project relies on the incredible work of the open-source community. Below are all the upstream repositories utilized:
+- **Compiler:** [Proton-Clang (kdrag0n)](https://github.com/kdrag0n/proton-clang)
+- **Kernel Source:** [LineageOS MT6768 / Merlin (lineage-20 branch)](https://github.com/lineageos/android_kernel_xiaomi_mt6768)
+- **Packaging:** [AnyKernel3 (osm0sis)](https://github.com/osm0sis/AnyKernel3)
+- **Wi-Fi Driver (RTL8188FU):** [kelebek333/rtl8188fu](https://github.com/kelebek333/rtl8188fu)
+- **Wi-Fi Driver (RTL8821AU):** [aircrack-ng/rtl8812au](https://github.com/aircrack-ng/rtl8812au)
+- **Wi-Fi Driver (RTL8188EUS):** [aircrack-ng/rtl8188eus](https://github.com/aircrack-ng/rtl8188eus)
 
 ## 📖 Documentation
 Head over to the `docs/` directory for full step-by-step guides on recreating this exact build:
