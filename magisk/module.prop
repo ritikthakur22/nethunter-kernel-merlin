@@ -1,0 +1,6 @@
+id=nethunter_wifi_drivers
+name=NetHunter External WiFi Drivers
+version=v1.0
+versionCode=1
+author=Ritik
+description=Automatically loads the RTL8188FU Wi-Fi driver on boot.
